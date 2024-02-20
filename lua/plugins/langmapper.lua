@@ -4,6 +4,8 @@ return {
   lazy = false,
   hack_keymap = true,
   config = function()
-    require("langmapper").setup()
+    local langmapper = require("langmapper")
+    langmapper.setup()
+    langmapper.hack_get_keymap()
   end,
 }
