@@ -15,6 +15,7 @@ return {
         view_options = {
           show_hidden = true,
         },
+        delete_to_trash = true,
         float = {
           -- Padding around the floating window
           padding = 2,
