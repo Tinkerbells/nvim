@@ -1,0 +1,21 @@
+return {
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        tailwindcss = {},
+      },
+    },
+  },
+  {
+    "NvChad/nvim-colorizer.lua",
+    opts = {
+      filetypes = { "*" },
+      buftypes = { "*" },
+      user_default_options = {
+        tailwind = true,
+        mode = "background", -- Set the display mode.
+      },
+    },
+  },
+}

@@ -7,7 +7,14 @@ return {
       pyright = {},
       ruff_lsp = {},
       gdscript = {},
+      tsserver = {
+        enabled = false,
+      },
+      ts_ls = {
+        enabled = false,
+      },
       vtsls = {
+        enabled = false,
         typescript = {
           format = false,
         },
