@@ -6,9 +6,8 @@ return {
       require("oil").setup({
         columns = { "icon" },
         keymaps = {
-          ["l"] = "actions.select",
-          ["h"] = "actions.parent",
-          ["<C-h>"] = false,
+          ["<C-l>"] = "actions.select",
+          ["<C-h>"] = "actions.parent",
           ["<M-h>"] = "actions.select_split",
           ["<leader>e"] = "actions.close",
         },
