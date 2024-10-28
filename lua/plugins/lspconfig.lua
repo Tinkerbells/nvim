@@ -10,6 +10,12 @@ return {
       tsserver = {
         enabled = false,
       },
+      lua_ls = {
+        enabled = true,
+      },
+      stylua = {
+        enabled = false,
+      },
       ts_ls = {
         enabled = false,
       },

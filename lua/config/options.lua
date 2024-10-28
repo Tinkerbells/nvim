@@ -1,6 +1,6 @@
 local opt = vim.opt
 
--- vim.g.lazyvim_picker = "fzf"
+vim.g.lazyvim_picker = "fzf"
 
 opt.relativenumber = false
 opt.conceallevel = 0
