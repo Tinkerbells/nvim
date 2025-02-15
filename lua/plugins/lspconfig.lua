@@ -1,4 +1,17 @@
 -- LSP keymaps
+local customizations = {
+  { rule = "style/*", severity = "off", fixable = true },
+  { rule = "format/*", severity = "off", fixable = true },
+  { rule = "*-indent", severity = "off", fixable = true },
+  { rule = "*-spacing", severity = "off", fixable = true },
+  { rule = "*-spaces", severity = "off", fixable = true },
+  { rule = "*-order", severity = "off", fixable = true },
+  { rule = "*-dangle", severity = "off", fixable = true },
+  { rule = "*-newline", severity = "off", fixable = true },
+  { rule = "*quotes", severity = "off", fixable = true },
+  { rule = "*semi", severity = "off", fixable = true },
+}
+
 return {
   "neovim/nvim-lspconfig",
   version = "*",
@@ -7,6 +20,44 @@ return {
       pyright = {},
       ruff_lsp = {},
       gdscript = {},
+      eslint = {
+        settings = {
+          rulesCustomizations = customizations,
+          -- helps eslint find the eslintrc when it's placed in a subfolder instead of the cwd root
+          workingDirectories = { mode = "auto" },
+        },
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "javascript.jsx",
+          "typescript",
+          "typescriptreact",
+          "typescript.tsx",
+          "vue",
+          "html",
+          "markdown",
+          "json",
+          "jsonc",
+          "yaml",
+          "toml",
+          "xml",
+          "gql",
+          "graphql",
+          "astro",
+          "svelte",
+          "css",
+          "less",
+          "scss",
+          "pcss",
+          "postcss",
+        },
+        on_attach = function(client, bufnr)
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            command = "EslintFixAll",
+          })
+        end,
+      },
       tsserver = {
         enabled = false,
       },
@@ -20,12 +71,12 @@ return {
         enabled = false,
       },
       vtsls = {
-        enabled = false,
+        enabled = true,
         typescript = {
-          format = false,
+          format = true,
         },
         javascript = {
-          format = false,
+          format = true,
         },
         enableMoveToFileCodeAction = true,
         autoUseWorkspaceTsdk = true,
@@ -37,11 +88,4 @@ return {
       },
     },
   },
-  init = function()
-    -- local keys = require("lazyvim.plugins.lsp.keymaps").get()
-    -- keys[#keys + 1] = { "<leader>cf", false }
-    -- -- remap diagnostic keymaps
-    -- keys[#keys + 1] = { "]d", false }
-    -- keys[#keys + 1] = { "[d", false }
-  end,
 }
