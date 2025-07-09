@@ -10,3 +10,22 @@ local diagnostic_goto = function(next)
 end
 map("n", "<C-n>", diagnostic_goto(true), { desc = "Next Error" })
 map("n", "<C-p>", diagnostic_goto(false), { desc = "Prev Error" })
+
+-- File path copying
+map("n", "<leader>fp", function()
+  local path = vim.fn.expand("%")
+  vim.fn.setreg("+", path)
+  vim.notify("Copied: " .. path)
+end, { desc = "Copy file path" })
+
+map("n", "<leader>fP", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  vim.notify("Copied: " .. path)
+end, { desc = "Copy absolute file path" })
+
+map("n", "<leader>fn", function()
+  local filename = vim.fn.expand("%:t")
+  vim.fn.setreg("+", filename)
+  vim.notify("Copied: " .. filename)
+end, { desc = "Copy filename" })

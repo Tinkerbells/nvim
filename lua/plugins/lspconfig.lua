@@ -64,28 +64,61 @@ return {
       lua_ls = {
         enabled = true,
       },
+      vtsls = {
+        enabled = false,
+      },
       stylua = {
         enabled = false,
       },
       ts_ls = {
         enabled = false,
       },
-      vtsls = {
-        enabled = true,
-        typescript = {
-          format = true,
-        },
-        javascript = {
-          format = true,
-        },
-        enableMoveToFileCodeAction = true,
-        autoUseWorkspaceTsdk = true,
-        experimental = {
-          completion = {
-            enableServerSideFuzzyMatch = true,
-          },
-        },
-      },
+    },
+    setup = {
+      ["typescript-tools"] = function(_, opts)
+        LazyVim.lsp.on_attach(function()
+          opts.handlers = {
+            ["textDocument/publishDiagnostics"] = setup_ts_diagnostics,
+          }
+        end)
+      end,
+
+      vtsls = function(_, opts)
+        LazyVim.lsp.on_attach(function()
+          opts.handlers = {
+            ["textDocument/publishDiagnostics"] = setup_ts_diagnostics,
+          }
+        end)
+      end,
+      eslint = function()
+        local function get_client(buf)
+          local clients = vim.lsp.get_clients({ name = "eslint", bufnr = buf })
+          return clients and clients[1] or nil
+        end
+
+        local formatter = LazyVim.lsp.formatter({
+          name = "eslint: lsp",
+          primary = false,
+          priority = 200,
+          filter = "eslint",
+        })
+
+        if not pcall(require, "vim.lsp._dynamic") then
+          formatter.format = function(buf)
+            local client = get_client(buf)
+            if client and client.server_capabilities then
+              local ok, diag = pcall(vim.diagnostic.get, buf, {
+                namespace = vim.lsp.diagnostic.get_namespace(client.id),
+              })
+              if ok and diag and #diag > 0 then
+                vim.cmd("EslintFixAll")
+              end
+            end
+          end
+        end
+
+        LazyVim.format.register(formatter)
+      end,
     },
   },
 }
